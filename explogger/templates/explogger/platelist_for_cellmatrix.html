@@ -1,0 +1,26 @@
+{% extends "master.html" %}<html>
+    {% block title %}
+   Plates - List of all plates available
+  {% endblock %}
+  
+  {% block content %}
+  <h1 class="my-5">Available Plates</h1>
+  <p> Click on the PlateName to access the Cell Matrix </p>
+
+  <table class="table table-bordered" border='1'>
+    <tr style="background: gray; color: white;">
+      <th>ID</th>
+      <th>Plate Name</th>
+    </tr>
+
+    {% for x in object_list %}
+      <tr>
+        <td>{{ x.id }}</td>
+        <td><a href="{% url 'cells_list' plate=x.plate_name %}">{{ x.plate_name }}<a></td>
+      </tr>
+    {% endfor %}
+  </table>
+
+
+{% endblock %}
+

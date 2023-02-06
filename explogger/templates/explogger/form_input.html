@@ -1,0 +1,15 @@
+{% extends "master.html" %}<html>
+{% block title %}
+   Add {{ form_name }}
+{% endblock %}
+
+{% block content %}
+  <h1 class = "my-5">Add New {{form_name}} Info</h1>
+<form  action = "" method = "post">
+	{% csrf_token %}
+    <table class="mx-5 align-middle">
+	{{ form.as_table}}
+	  </table>
+    <input class="mx-5 btn btn-primary" type="submit" value=Submit>
+</form>
+{% endblock %}

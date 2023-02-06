@@ -1,0 +1,124 @@
+{% load static %}
+{% load bootstrap5 %}
+
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
+
+<!DOCTYPE html>
+
+<html>  
+<head>
+  <title>{% block title %}  {% endblock %}</title>
+ <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body class="mx-5">
+ 
+<!-- 
+example 3 - Navbar with brand left, links on center and right that collapse into the vert mobile menu
+-->
+<nav class="navbar navbar-primary navbar-expand-md bg-white justify-content-center p-0">
+<!--  <a href="/" class="navbar-brand d-flex mx-3 w-50 mr-auto"><h1>SARA Labs</h1></a> -->  
+<a class="navbar-brand d-flex mx-3 w-50 mr-auto p-0" href="/">
+    <img src="{% static 'img/Sara-logo.jpg' %}" alt="" width="170" height="60"> </a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar3">
+      <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="navbar-collapse collapse w-100" id="collapsingNavbar3">
+      <ul class="navbar-nav w-50 justify-content-start h5" >
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+      </li>  
+        <li class="nav-item">
+              <a class="nav-link" href="/plate_list">Plates</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="/observation_list">Observations</a>
+          </li>
+      </ul>
+      <ul class="nav navbar-nav  ml-auto mx-3 w-100 justify-content-end p-0">
+        {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link p-0" href="#"> Welcome {{ user.get_username|upper }} !!!</a>
+            <a class="nav-link p-0" href="{% url 'logout' %}?next={{ request.path }}">Logout</a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'login' %}?next={{ request.path }}">Login</a>
+          </li>
+        {% endif %}
+      </ul>
+  </div>
+</nav>
+<hr class="m-0">
+<div class="container-sm">
+{% block content %}
+{% endblock %}
+</div>
+{% block leftbar %}
+{% endblock %}
+
+</body>
+</html>
+
+<!--{% include 'footer.html' %} -->
+
+
+
+
+
+<!--
+  <!--Navbar--
+  <nav class="navbar navbar-expand-sm navbar-dark bg-primary">
+    <a class="navbar-brand" href="/">ExpLogger</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="">Plates</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="">Observations</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="">Contact</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="">Contact</a>
+        </li>
+      </ul>
+        <ul class="navbar-nav mr-auto">
+          {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href=""> User : {{ user.get_username }} </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" UserName : {{ user.get_username }} : href="{% url 'logout' %}?next={{ request.path }}">Logout</a></p>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'login' %}?next={{ request.path }}">Login</a>
+            </li>
+          {% endif %}
+        </ul>
+    </div>
+  </nav>
+-->
+<!--
+  <div class="topnav">
+    <p><a href="/">HOME</a></p>
+    <a href="/buffer_list">Buffers</a>
+   
+    {% if user.is_authenticated %}
+      <p>User: {{ user.get_username }}</p>
+      <p><a href="{% url 'logout' %}?next={{ request.path }}">Logout</a></p>
+    {% else %}
+      <p><a href="{% url 'login' %}?next={{ request.path }}">Login</a></p>
+    {% endif %}
+  </div>
+-->
+
+

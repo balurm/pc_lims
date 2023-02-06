@@ -1,0 +1,30 @@
+{% extends "master.html" %}<html>
+    {% block title %}
+   Saralab :::  {{list_name|title}} ListView
+  {% endblock %}
+  
+{% block content %}
+<h1 class="my-3">{{list_name|title}} list</h1>
+  <h3 class="mb-3"><a href="/form_{{list_name}}"> Add New </a></h3>
+<table class="table table-bordered table-hover table-responsive table-sm" border='1'>
+  {% for obj in object_list %}
+    {% if forloop.first %}
+    <thead style="background: gray; color: white;">
+      {% for fld, val in obj.get_fields %}
+        <td> {{ fld|title }} </td>
+      {% endfor %}
+    </thead>
+    {% endif %}
+     
+    <tr>
+         {% for fld, val in obj.get_fields %}
+          {% if fld|title == 'Id' %}
+          <td><a href="/update_{{list_name}}/{{val}}">{{ fld.name }} {{ val }}</a></td>
+          {% else %}
+          <td>{{ fld.name }} {{ val }}</td>
+          {% endif %}
+         {% endfor %}
+     </tr>
+  {% endfor %}
+ </table>
+{% endblock %}

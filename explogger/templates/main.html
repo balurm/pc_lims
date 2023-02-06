@@ -1,0 +1,32 @@
+{% extends "master.html" %}
+
+{% block title %}
+  Saralab ::: PC-LIMS
+{% endblock %}
+
+
+{% block content %}
+<div class="jumbotron bg-light mt-5 shadow-lg p-3 mb-5 bg-white rounded">
+  <h3 >Protein Crystallization - Laboratory Information Management System (PC-LIMS)</h3>
+  <p class="lead">Experiment and Observation Logger</p>
+  <hr class="my-4">
+
+  <div class="m-5">
+    <ul>
+      <li><h5><a href="buffer_list/">Buffers</a></h5></li>
+      <li><h5><a href="precipitant_list/">Precipitants</a></h5></li>
+      <li><h5><a href="additive_list/">Additives</a></h5></li>
+      <li><h5><a href="rs_list/">Reservoir Solutions</a></h5></li>
+      <li><h5><a href="protein_list/">Proteins</a></h5></li>
+      <li><h5><a href="plate_list/">Plates</a></h5></li>
+      <li><h5><a href="cell_list/">Cell Matrices</a></h5></li>
+
+      <li><h5><a href="observation_list/">Observations</a></h5></li>
+
+    </ul>
+    </div>
+  <p></p>
+  <a class="btn btn-primary btn-lg" href="#" role="button">Start Logging</a>
+</div>
+
+{% endblock %}

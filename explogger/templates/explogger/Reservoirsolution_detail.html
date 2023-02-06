@@ -1,0 +1,19 @@
+{% extends "master.html" %}<html>
+    {% block title %}
+   Reservoir Solution - List of all Solutions available
+  {% endblock %}
+  
+  {% block content %}
+
+
+<table>
+    {% for label, value in object.get_fields %}
+        <tr>
+            <td>{{ label }}</td>
+            <td>{{ value }}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+<p><a href="../../rs_list">View All Entries</a><p>
+{% endblock %}

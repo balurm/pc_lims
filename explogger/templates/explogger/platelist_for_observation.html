@@ -1,0 +1,26 @@
+{% extends "master.html" %}<html>
+    {% block title %}
+   Saralab ::: Plates in Observation
+  {% endblock %}
+  
+  {% block content %}
+  <h1 class="my-5">Plates in Observation</h1>
+  <p> Click on the PlateName to add Observations </p>
+
+  <table class="table table-bordered" border='1'>
+    <tr style="background: gray; color: white;">
+      <th>ID</th>
+      <th>Plate Name</th>
+    </tr>
+
+    {% for x in object_list %}
+      <tr>
+        <td>{{ x.id }}</td>
+        <td><a href="{% url 'observation_list' plate=x.plate_name %}">{{ x.plate_name }}<a></td>
+      </tr>
+    {% endfor %}
+  </table>
+
+
+{% endblock %}
+

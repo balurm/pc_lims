@@ -1,0 +1,58 @@
+{% extends "master.html" %}<html>
+    {% block title %}
+   Reservoir Solutions - List of all Solutions available
+  {% endblock %}
+  
+  {% block content %}
+  <h1></h1>
+  <h1 class="my-3">Reservoir Solutions</h1>
+  <h3 class="mb-3"><a href="/form_reservoirsolution"> Add New</a></h3>
+  <table class="table table-bordered" border='1'>
+    <tr style="background: gray; color: white;">
+  
+      <th>id</th>
+      <th>Buffer</th>
+      <th>Buffer Vol</th>
+      <th>Precipitant</th>
+      <th>Precip Vol</th>
+      <th>Additive</th>
+      <th>Additive Volume</th>
+      <th>Additive2</th>
+      <th>Additive2 Volume</th>
+      <th>Total Volume</th>
+      <th>MakeDate</th>
+      <th>Combined Name</th>
+      <th>Remarks</th>
+      <th>Made By</th>
+    </tr>
+    {% for x in object_list %}
+      <tr>
+        <td><a href="{% url 'rs_update' pk=x.pk %}">{{ x.id }}</a></td>
+        <td>{{ x.buffer_id }}</td>
+        <td>{{ x.b_volume }}</td>
+        <td>{{ x.precipitant_id }}</td>
+        <td>{{ x.p_volume }}</td>
+        <td>{{ x.additive1_id }}</td>
+        <td>{{ x.a1_volume }}</td>
+        <td>{{ x.additive2_id }}</td>
+        <td>{{ x.a2_volume }}</td>
+        <td>{{ x.total_volume }}</td>
+        <td>{{ x.makedate }}</td>
+        <td>{{ x.rs_combinedname }}</td>
+        <td>{{ x.remark }}</td>
+        <td>{{ x.addedby }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+
+
+
+<!--
+  <ul>
+  {% for x in mybuffers %}
+    <li><a href="bdetails/{{ x.id }}">{{ x.name }} {{ x.make }}</a></li>
+  {% endfor %}
+</ul>
+-->
+{% endblock %}
+

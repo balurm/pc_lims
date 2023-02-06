@@ -1,0 +1,71 @@
+{% extends "master.html" %}
+
+{% block title %}
+Saralab ::: Plate Observation
+{% endblock %}
+
+{% block content %}
+
+<h1 class="my-5"> Plate Observation </h1>
+<h5 class="mb-3"><a href="{% url 'observation_new' plate=plate%}" > Add New Observation to the Plate</a><h5>
+
+<p>Please click on each cell to update individual cells </p>
+
+<table class="table table-bordered" border='1'>
+
+  <thead style="background: gray; color: white;" class="fw-bold">
+
+
+<td>Combiname</td>
+<td>Obs date </td>
+<td>Observ count </td>
+<td>Crystal Type </td>
+<td>Crystal Size </td>
+<td>Photo </td>
+<td>Status </td>
+<td>Nextdate </td>
+<td>Remark </td>
+</thead>
+    {% for x in object_list %}
+      <tr>
+       <!-- <td>{{ x.id }}</td>
+        <td>{{ x.platename }}</a></td>
+        <td>{{ x.cellname }}</td>  -->
+        <td><a href="{% url 'observation_update' pk=x.id %}">{{ x.combiname }}</td>
+        <td>{{ x.observ_date }}</td>
+        <td>{{ x.observ_count }}</td>
+        <td>{{ x.crystal_type }}</td>
+        <td>{{x.crystal_size}}</td>
+        <td><img src="{{ x.photo.url }}" width="50" height="50"></td>
+        <td>{{ x.status }}</td>
+        <td>{{ x.nextdate }}</td>
+        <td>{{ x.remark }}</td>
+        <!-- <td>{{ x.addedeby }}</td> <td>{{x.photo}}</td> -->
+      </tr>
+    {% endfor %}
+    </table>
+
+    {% endblock %}
+ 
+<!--
+
+<table>
+  {% for obj in object_list %}
+  {% if forloop.first %}
+  <thead>
+
+  {% for fld, val in obj.get_fields %}
+
+    <td> {{ fld }} </td>
+  {% endfor %}
+</thead>
+
+  {% endif %}
+     <tr>
+         {% for fld, val in obj.get_fields %}
+             <td>{{ fld.name }} : {{ val }}</td>
+         {% endfor %}
+     </tr>
+  {% endfor %}
+ </table>
+-->

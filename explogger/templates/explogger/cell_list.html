@@ -1,0 +1,45 @@
+{% extends "master.html" %}<html>
+    {% block title %}
+   Saralab ::: Cells in the Plate
+  {% endblock %}
+  
+  {% block content %}
+  <h1 class="my-5">Cells in the Plate</h1>
+  <h3><a href="/observation_new/{{plate_name}}"> Add Observations </a></h3>
+
+  <table class="table table-bordered" border='1'>
+    <tr style="background: gray; color: white;">
+      <th>ID</th>
+      <th>Combi Name</th>
+      <th>Reservoir Solution</th>
+      <th>RS Volume</th>
+      <th>Protein</th>
+      <th>Protein Volume</th>
+      <th>Startdate</th>
+      <th>CellStatus</th>
+      <th>Added By</th>
+      <th>Remark</th>
+    </tr>
+
+    {% for x in object_list %}
+      <tr>
+    
+        <td>{{ x.id }}</td>
+        <td><a href="{% url 'cell_update' pk=x.id %}">{{ x.cell_combiname }}</a></td>
+        <td>{{ x.reservoirsolution }}</td>
+        <td>{{ x.ressol_volume }}</td>
+        <td>{{ x.protein }}</td>
+        <td>{{ x.protein_volume }}</td>
+        <td>{{ x.startdate }}</td>
+        <td>{{ x.cellstatus }}</td>
+        <td>{{ x.addedby }}</td>
+        <td>{{ x.remark }}</td>
+
+
+      </tr>
+    {% endfor %}
+  </table>
+
+
+{% endblock %}
+
