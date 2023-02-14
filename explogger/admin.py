@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import Buffer, Precipitant, Additive, Reservoirsolution, Protein, Plate, Cell, Observation
 
 class BufferAdmin(admin.ModelAdmin):
-  list_display = ("name", "make","addedby", "makedate",)
+  list_display = ("name", "make", "addedby", "makedate",)
 
 class PrecipAdmin(admin.ModelAdmin):
   list_display = ("name", "make", "makedate",)

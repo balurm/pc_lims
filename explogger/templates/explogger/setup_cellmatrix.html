@@ -1,0 +1,32 @@
+{% extends "master.html" %}
+
+{% block title %}
+  Edit Cells
+{% endblock %}
+
+
+{% block content %}
+<h1 class = "my-5">Edit Cell Values</h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ formset.management_form }}
+        <table class="table table-bordered" border='1'>
+                {% for form in formset %}
+                    {% if forloop.first %}
+                        <thead style="background: gray; color: white;" class="fw-bold">
+                        {% for field in form.visible_fields %}
+                            <td>{{ field.label_tag }}</td>                  
+                        {% endfor %}
+                        </thead>
+                    {% endif %}
+                <tr>
+                    {% for field in form %}
+                        <td>{{ field }}</td>
+                    {% endfor %}
+                <tr>
+                {% endfor %} 
+            </table>
+    <input  class="my-1 btn-lg btn-primary" type="submit" value="Submit" /> 
+ </form>
+{% endblock %}

@@ -38,9 +38,12 @@ class Buffer(models.Model):
     addedby = models.ForeignKey(User, on_delete=models.DO_NOTHING, to_field='username', related_name='b_addedby',  db_column='b_addedby')
     b_combiname = models.CharField(max_length=20, unique=True)
 
-    # def save(self, *args, **kwargs):
-    #     self.b_combiname = self.name[0:3] + '_' + self.make + '_' + self.package
-    #     super(Buffer, self).save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        self.b_combiname = self.b_combiname + '_' + str(self.pk)
+        super(Buffer, self).save(*args, **kwargs)
+    
+    class Meta:
+      unique_together = 'addedby', 'b_combiname'
 
     def __str__(self):
         return f'{self.b_combiname}'
@@ -158,6 +161,8 @@ class Protein(models.Model):
     concunit = models.CharField(max_length=2, choices=UNITS, default='M')
     remark = models.TextField(null=True, blank=True)
     addedby = models.ForeignKey(User, on_delete=models.DO_NOTHING, to_field='username', related_name='pr_addedby',  db_column='pr_addedby')
+    created_date = models.DateField(default=timezone.now)
+
 
     def get_fields(self):
         return [(field.verbose_name, field.value_from_object(self)) for field in self.__class__._meta.fields]
@@ -176,6 +181,7 @@ class Plate(models.Model):
     base_protein = models.ForeignKey(Protein, on_delete=models.DO_NOTHING)
     status = models.CharField(max_length=10, choices=BOOL_CHOICES, default='Active')
     remark = models.TextField(null=True, blank=True)
+    created_date = models.DateField(default=timezone.now)
 
     addedby = models.ForeignKey(User, on_delete=models.DO_NOTHING, to_field='username', related_name='pl_addedby',  db_column='pl_addedby')
 
@@ -201,7 +207,7 @@ class Cell(models.Model):
     ressol_volume= models.DecimalField(max_digits=5, decimal_places=1, validators=[MinValueValidator(0), MaxValueValidator(1000)], default=Decimal('0.0'))
     protein = models.ForeignKey(Protein, on_delete=models.DO_NOTHING, related_name='protein', db_column='protein')
     protein_volume= models.DecimalField(max_digits=5, decimal_places=1, validators=[MinValueValidator(0), MaxValueValidator(1000)], default=Decimal('0.0'))
-    startdate = models.DateField()
+    startdate = models.DateField(default=timezone.now)
     cellstatus = models.CharField(max_length=16, choices = STATUS, default='InObservation')
     cell_combiname = models.CharField(max_length=20, unique=True)
     addedby = models.ForeignKey(User, on_delete=models.DO_NOTHING,to_field='username', related_name='c_addedby',  db_column='c_addedby')
@@ -230,7 +236,8 @@ class Observation(models.Model):
     crystal_type = models.CharField(max_length=20,null=True, blank=True)
     crystal_size = models.CharField(max_length=20,null=True, blank=True)
     photo = models.ImageField(upload_to='images/cells/%Y/%m/%d/', null=True, blank=True)
-    status = models.CharField(max_length=16, choices=STATUS , default='InObservation')
+    # status = models.CharField(max_length=16, choices=STATUS , default='InObservation')
+    status = models.ForeignKey(Cell, on_delete=models.DO_NOTHING, to_field='status', related_name='status')
     nextdate = models.DateField()
     remark = models.TextField(null=True, blank=True)
     addedby = models.ForeignKey(User, on_delete=models.DO_NOTHING, to_field='username', related_name='o_addedby',  db_column='o_addedby')
@@ -241,30 +248,3 @@ class Observation(models.Model):
 
     def get_fields(self):
         return [(field.verbose_name, field.value_from_object(self)) for field in self.__class__._meta.fields]
-
-
-
-
-# class Reservoirsolution(models.Model):
-
-#     buffer = models.ForeignKey(Buffer, on_delete=models.DO_NOTHING, related_name='buffer',  db_column='buffer')
-#     b_volume = models.DecimalField(max_digits=5, decimal_places=1, min_value=0, validators=[MinValueValidator(0), MaxValueValidator(1000)], default=0.0)
-
-#     precipitant = models.ForeignKey(Precipitant, on_delete=models.DO_NOTHING, related_name='precip',  db_column='precip')
-#     p_volume = models.DecimalField(max_digits=5, decimal_places=1, min_value=0, validators=[MinValueValidator(0), MaxValueValidator(1000)], default=0.0)
-
-#     additive1 = models.ForeignKey(Additive, on_delete=models.DO_NOTHING, related_name='additive1',  db_column='additive1')
-#     a1_volume = models.DecimalField(max_digits=5, decimal_places=1, min_value=0, validators=[MinValueValidator(0), MaxValueValidator(1000)], default=0.0)
-
-#     additive2 = models.ForeignKey(Additive, on_delete=models.DO_NOTHING, related_name='additive2',  db_column='additive2')
-#     a2_volume = models.DecimalField(max_digits=5, decimal_places=1, min_value=0, validators=[MinValueValidator(0), MaxValueValidator(1000)], default=0.0)
-
-#     total_volume = models.DecimalField(max_digits=5, decimal_places=1, min_value=0)
-#     rs_combinedname = models.CharField(max_length=20, unique=True)
-#     remark = models.TextField(null=True, blank=True)
-#     addedby = models.ForeignKey(User, on_delete=models.DO_NOTHING)
-
-
-
-
-

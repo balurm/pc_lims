@@ -1,19 +1,12 @@
  # type: ignore
-from django.forms.widgets import DateInput
 from django.db.models import Max, Subquery, OuterRef, F
-
 from datetime import datetime, timedelta
-from django import forms
 from django.urls import reverse
-# from django.shortcuts import render, redirect
-# from django.http import HttpResponse, HttpResponseRedirect
-# from django.template import loader
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.views.generic import  FormView, UpdateView, ListView, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import  FormView, ListView
 from extra_views import ModelFormSetView
-from ..models import User, Buffer, Precipitant, Additive, Reservoirsolution, Protein, Plate, Cell, Observation
-from ..forms import BufferForm, PrecipitantForm, AdditiveForm, ReservoirSolutionForm, ProteinForm, PlateForm, CellForm, ObservationForm
-
+from ..models import Plate, Cell, Observation
+from ..forms import BufferForm, PrecipitantForm, AdditiveForm, ReservoirSolutionForm, ProteinForm, PlateForm
 
 
 class BufferFormView(LoginRequiredMixin, FormView):
@@ -59,12 +52,6 @@ class ProteinFormView(BufferFormView):
     template_name = "explogger/form_input.html"
     success_url = "/protein_list/"
     form_name = 'Protein'
-
-# class PlateFormView(BufferFormView):
-#     form_class = PlateForm
-#     template_name = "explogger/form_input.html"
-#     success_url = "/plate_list/"
-#     form_name = 'Plate'
 
 class PlateFormView(LoginRequiredMixin, FormView):
     form_class = PlateForm
@@ -127,7 +114,7 @@ class PlateFormView(LoginRequiredMixin, FormView):
 
 class CellsUpdate(ModelFormSetView):
     model = Cell
-    template_name = 'update_cells.html'
+    template_name = 'explogger/setup_cellmatrix.html'
     fields = ['cell_combiname', 'reservoirsolution', 'ressol_volume', 'protein', 'protein_volume']
     factory_kwargs = {'extra': 0}
     plate = None
@@ -139,6 +126,7 @@ class CellsUpdate(ModelFormSetView):
         qs = qs.filter(addedby=self.request.user)
         qs = qs.order_by("id")
         return qs
+    
     def get_success_url(self):
         return reverse('cells_list', kwargs={'plate':self.plate})
 
@@ -147,6 +135,7 @@ class CellListByPlate(LoginRequiredMixin, ListView):
     permission_required = 'explogger.view_buffer'
     model = Cell
     plate=None
+    # template = 'cell_list.html'
    
     def get_queryset(self, *args, **kwargs):
         qs = super().get_queryset(*args, **kwargs)
@@ -168,6 +157,7 @@ class ObservationListByPlate(LoginRequiredMixin, ListView):
     model = Observation
     field = '__all__'
     plate = None
+    # template = 'explogger/observation_list.html'
    
     def get_queryset(self, *args, **kwargs):
         qs = super().get_queryset(*args, **kwargs)
@@ -184,14 +174,9 @@ class ObservationListByPlate(LoginRequiredMixin, ListView):
         context['plate'] = self.plate
         return context
 
-
-
-
-
-
 class ObservationNew(ModelFormSetView):
     model = Observation
-    template_name = 'update_cells.html'
+    template_name = 'explogger/observation_newfor_cellmatrix.html'
     fields = ['combiname', 'observ_date', 'crystal_type', 'crystal_size', 'photo', 'status', 'nextdate']
     factory_kwargs = {'extra': 0}
     plate = None
@@ -223,56 +208,3 @@ class ObservationNew(ModelFormSetView):
             return self.photo.url
         else:
             return "/static/test.jpg"
-
-   
-
-
-# class ObservationFormView(LoginRequiredMixin, FormView):
-#     form_class = ObservationForm
-#     template_name = "explogger/form_input.html"
-#     success_url = "/observation_list/"
-#     form_name = 'Observation'
-
-    
-#     def get_form_kwargs(self):# send plate_name value to form
-#         kwargs = super().get_form_kwargs()
-#         kwargs['plate_name'] = 'Plate1'
-#         return kwargs
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['form_name'] = self.form_name
-#         return context
-    
-#     def form_valid(self, form):
-#             form = form.save(commit=False)
-#             form.addedby = self.request.user  
-#             form.save()
-#             return super().form_valid(form)
-
-    # def get_success_url(self):
-    #      #print(self.pk)
-    #     return reverse('observation_list', kwargs={'plate':self.plate})
-
-
-# class ObservationUpdate(ModelFormSetView):
-#     model = Observation
-#     form_control = ObservationForm
-#     template_name = 'update_platecells.html'
-#     fields = ['platename', 'cellname', 'observ_date', 'observ_count', 'crystal_type', 'crystal_size', 'photo', 'status', 'nextdate']
-#     factory_kwargs = {'extra': 0}
-#     plate = None
-
-#     def get_queryset(self, *args, **kwargs):
-#         qs = super(ObservationUpdate, self).get_queryset(*args, **kwargs)
-#         qs = qs.filter(platename__plate_name=self.kwargs['plate'])
-#         self.plate = self.kwargs['plate'] 
-#         qs = qs.filter(addedby=self.request.user)
-#         qs = qs.order_by("id")
-#         return qs
-    
-#     def get_success_url(self):
-#         return reverse('observation_list', kwargs={'plate':self.plate})
-    
-
-

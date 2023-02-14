@@ -20,7 +20,7 @@
   
   .bg {
     /* The image used */
-    background-image: url('{% static 'img/background.jpg' %}');
+    background-image: url('{% static 'img/site_loginbackground.jpg' %}');
   
     /* Full height */
     height: 100%; 
@@ -35,23 +35,14 @@
 
 <body>
   {% block content %}
-
-  <!--<img src="{% static 'img/background.jpg' %}" height="100vh">-->
   <div class="bg"></div>
 
-<!--
-  <div class="bg-image" style="
-    background-image: url('{% static 'img/background.jpg' %}');
-    height: 100vh;">
-  </div>
--->
-<div class="position-absolute top-50 start-50 translate-middle bg-light bg-gradient rounded px-5 py-1">
+
+  <div class="position-absolute top-50 start-50 translate-middle bg-light bg-gradient rounded px-5 py-1">
   {% if form.errors %}
     <p>Your username and password didn't match. Please try again.</p>
   {% endif %}
   <p><h1 class="text-center fw-bold  text-info"> SARA LAB</h1></p>
-  
-
   <p><h1 class="text-center fw-bold text-muted"> Welcome to PC-LIMS</h1></p>
   <hr>
 
