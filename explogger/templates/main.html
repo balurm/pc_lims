@@ -9,11 +9,16 @@
 {% block content %}
 
 <div class="jumbotron bg-light mt-5 shadow-lg p-3 mb-5 bg-white rounded">
-  <h3 >Protein Crystallization - Laboratory Information Management System (PC-LIMS)</h3>
-  <p class="lead">Experiment and Observation Logger</p>
+  <h3 style="text-align:center">Protein Crystallization - Laboratory Information Management System (PC-LIMS)</h3>
+  <h4 class="lead" style="text-align:center" >Experiment and Observation Logger</h4>
   <hr class="my-4">
-  <div class="row m-5 px-5">
-    <div class="col-5 pt-3">
+  <div class="row mx-5 px-3">
+    <div class="col-4 pt-3 mt-5">
+      <div class="card bg-light mb-3" style="max-width: 18rem;">
+        {% comment %} <div class="card-header">Header</div> {% endcomment %}
+        <div class="card-body">
+          <h4 class="card-title" style="text-align:center">Loggers</h4>
+          {% comment %} <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> {% endcomment %}
       <ul>
         <li><h5><a href="buffer_list/">Buffers</a></h5></li>
         <li><h5><a href="precipitant_list/">Precipitants</a></h5></li>
@@ -24,10 +29,35 @@
         <li><h5><a href="cell_list/">Cell Matrices</a></h5></li>
         <li><h5><a href="observation_list/">Observations</a></h5></li>
       </ul>
+    </div>
+  </div>
      </div>
-    <div class="col-7">
+    <div class="col-8">
+      <div class="row mx-2">
+        <div class="card text-white bg-info mb-3" style="max-width: 11rem;">
+          {% comment %} <div class="card-header"></div> {% endcomment %}
+          <div class="card-body">
+            <h5 class="card-title">Active <br>Plates</h5>
+            <h1 class="card-text">{{active_plates}}</h1>          
+          </div>
+        </div>
+        <div class="card text-white bg-success mb-3 mx-2" style="max-width: 11rem;">
+          {% comment %} <div class="card-header"></div> {% endcomment %}
+          <div class="card-body">
+            <h5 class="card-title">Active <br>Cells</h5>
+            <h1 class="card-text">{{active_cells}}</h1>          
+          </div>
+        </div>
+        <div class="card text-white bg-danger mb-3" style="max-width: 12rem;">
+          {% comment %} <div class="card-header"></div> {% endcomment %}
+          <div class="card-body">
+            <h5 class="card-title">Observations <br>Overdue</h5>
+            <h1 class="card-text">{{observation_overdue}}</h1>
+          </div>
+        </div>
+    </div>
+    
       <img src="{% static 'img/site_workflow.png' %}" width="600"> 
-
     </div>
   </div>
     <p></p>

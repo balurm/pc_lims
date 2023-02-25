@@ -236,8 +236,7 @@ class Observation(models.Model):
     crystal_type = models.CharField(max_length=20,null=True, blank=True)
     crystal_size = models.CharField(max_length=20,null=True, blank=True)
     photo = models.ImageField(upload_to='images/cells/%Y/%m/%d/', null=True, blank=True)
-    # status = models.CharField(max_length=16, choices=STATUS , default='InObservation')
-    status = models.ForeignKey(Cell, on_delete=models.DO_NOTHING, to_field='status', related_name='status')
+    status = models.CharField(max_length=16, choices=STATUS , default='InObservation')
     nextdate = models.DateField()
     remark = models.TextField(null=True, blank=True)
     addedby = models.ForeignKey(User, on_delete=models.DO_NOTHING, to_field='username', related_name='o_addedby',  db_column='o_addedby')
@@ -245,6 +244,7 @@ class Observation(models.Model):
     def __str__(self):
         # This is for admin display
         return f'{self.cellname}'
+    
 
     def get_fields(self):
         return [(field.verbose_name, field.value_from_object(self)) for field in self.__class__._meta.fields]

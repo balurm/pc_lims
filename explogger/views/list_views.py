@@ -3,9 +3,10 @@
 from django.shortcuts import render
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.views.generic import ListView
-from ..models import Buffer, Precipitant, Additive, Reservoirsolution, Protein, Plate
+from ..models import Buffer, Precipitant, Additive, Reservoirsolution, Protein, Plate, Cell, Observation
 from django.contrib.auth.decorators import login_required
 from django.db import models
+from datetime import datetime
 
 
 
@@ -85,7 +86,16 @@ class ObservationPlateListView(BufferListView):
 
 @login_required(login_url='/accounts/login/')
 def main(request):
-    return render(request, "main.html",{
-        "username": request.user.username # don't overwriting user
-    })
+    username = request.user.username
+    active_plates = Plate.objects.filter(status='Active', addedby=username).count()
+    active_cells = Cell.objects.filter(cellstatus='InObservation', addedby=username).count()
+    observation_overdue = Observation.objects.filter(status='InObservation', addedby=username, nextdate__lte=datetime.now()).values('combiname').distinct().count()
 
+    context = {
+        'username':username,
+        'active_plates':active_plates,
+        'active_cells':active_cells,
+        'observation_overdue':observation_overdue
+    }
+
+    return render(request, "main.html", context)

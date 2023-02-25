@@ -7,11 +7,10 @@
 
 {% block content %}
 <h1 class = "my-5">Edit Cell Values</h1>
-
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ formset.management_form }}
-        <table class="table table-bordered" border='1'>
+        <table class="table table-bordered w-auto" border='1'>
                 {% for form in formset %}
                     {% if forloop.first %}
                         <thead style="background: gray; color: white;" class="fw-bold">

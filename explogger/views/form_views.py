@@ -1,4 +1,5 @@
  # type: ignore
+from django import forms
 from django.db.models import Max, Subquery, OuterRef, F
 from datetime import datetime, timedelta
 from django.urls import reverse
@@ -174,12 +175,21 @@ class ObservationListByPlate(LoginRequiredMixin, ListView):
         context['plate'] = self.plate
         return context
 
+
+class MyForm(forms.ModelForm):
+    model = Observation
+
+    def __init__(self, *args, **kwargs):
+        super(MyForm, self).__init__(*args, **kwargs)
+        self.fields['photo'].widget = forms.FileInput()
+
 class ObservationNew(ModelFormSetView):
     model = Observation
     template_name = 'explogger/observation_newfor_cellmatrix.html'
     fields = ['combiname', 'observ_date', 'crystal_type', 'crystal_size', 'photo', 'status', 'nextdate']
     factory_kwargs = {'extra': 0}
     plate = None
+    form_class = MyForm
 
     def get_queryset(self, *args, **kwargs):
         qs = super().get_queryset(*args, **kwargs)
@@ -201,10 +211,15 @@ class ObservationNew(ModelFormSetView):
             form.id = None # To ensure new record is created
             form.observ_count = form.observ_count +1
             form.save()
+
+            cell = Cell.objects.get(id=form.cellname_id)
+            cell.cellstatus = form.status
+            cell.save()
+
         return super().formset_valid(formset)
     
-    def get_photo_url(self):
-        if self.photo and hasattr(self.photo, 'url'):
-            return self.photo.url
-        else:
-            return "/static/test.jpg"
+    # def get_photo_url(self):
+    #     if self.photo and hasattr(self.photo, 'url'):
+    #         return self.photo.url
+    #     else:
+    #         return "/static/test.jpg"
