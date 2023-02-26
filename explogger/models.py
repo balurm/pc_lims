@@ -8,18 +8,6 @@ from django.urls import reverse
 from django.core.validators import MaxValueValidator, MinValueValidator
 from decimal import Decimal # helps to set min_value=0
 
-# class User(models.Model):
-#     username = models.CharField(max_length=50)
-#     password = models.CharField(max_length=50)
-#     email = models.EmailField()
-#     phone = models.CharField(max_length=12)
-    
-#     def __str__(self):
-#         return f'{self.username}'
-
-#     def get_fields(self):
-#         return [(field.verbose_name, field.value_from_object(self)) for field in self.__class__._meta.fields]
-
 
 # Create your models here.
 class Buffer(models.Model):
@@ -34,13 +22,12 @@ class Buffer(models.Model):
     makedate = models.DateField(null=True)
     expdate = models.DateField(null=True)
     remark = models.TextField(null=True, blank=True)
-    # addedby = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING)
     addedby = models.ForeignKey(User, on_delete=models.DO_NOTHING, to_field='username', related_name='b_addedby',  db_column='b_addedby')
     b_combiname = models.CharField(max_length=20, unique=True)
 
-    def save(self, *args, **kwargs):
-        self.b_combiname = self.b_combiname + '_' + str(self.pk)
-        super(Buffer, self).save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     self.b_combiname = self.b_combiname + '_' + str(self.pk)
+    #     super(Buffer, self).save(*args, **kwargs)
     
     class Meta:
       unique_together = 'addedby', 'b_combiname'
@@ -51,21 +38,7 @@ class Buffer(models.Model):
     def get_fields(self):
         return [(field.verbose_name, field.value_from_object(self)) for field in self.__class__._meta.fields]
 
-    
-''' explog = Buffer(name='SuperBuff',
-make='DeltaKing',
-package=2022,
-concentration=20,
-concunit='ml',
-ph=4.3,
-makedate='2023-01-07',
-bcombi_name = 'DK_2022_20_ml_4.3'
 
-) '''
-
-
-
-# Create your models here.
 class Precipitant(models.Model):
     UNITS = [('M', 'M'), ('%','%')]
     VOLUMES = [('W/V', 'W/V'), ('V/V', 'V/V')]
