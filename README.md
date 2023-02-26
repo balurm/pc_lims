@@ -5,4 +5,4 @@ Experiment and Observation Logger
 
 ***************************************
 
-![PC-LIMS Workflow](https://github.com/balurm/pc_lims/blob/master/media/app_screenshot.jpg)
+![PC-LIMS Workflow](explogger/media/app_screenshot.jpg)
